@@ -5,7 +5,12 @@ module StaticMatic
       @staticmatic = staticmatic
     end
 
-    def call(env)
+    def call(env) 
+      if $bool
+        staticmatic = StaticMatic::Base.new($dir_name)
+        staticmatic.run('build')
+        $bool += 1
+      end 
       @staticmatic.load_helpers
       path_info = env["PATH_INFO"]
 
@@ -15,8 +20,7 @@ module StaticMatic
       file_dir.gsub!(/^\/stylesheets\/?/, "")
       
       file_dir = CGI::unescape(file_dir)
-      file_name = CGI::unescape(file_name)
-
+      file_name = CGI::unescape(file_name)  
       unless file_ext && ["html", "css"].include?(file_ext) &&
           @staticmatic.template_exists?(file_name, file_dir) &&
           File.basename(file_name) !~ /^\_/
