@@ -1,12 +1,14 @@
+require 'getoptlong'
+
 module StaticMatic::ServerMixin
   def preview
-    directory = ARGV[1]
-    optional_build = ARGV[2]
-    staticmatic = StaticMatic::Base.new(directory)
+    $bool = false
+    $dir_name = ARGV[1]
+    opts = GetoptLong.new([ '--auto-build', '-a', GetoptLong::NO_ARGUMENT ])
     
-    #building if third argument is -b
-    if optional_build == '-b'
-      staticmatic.run('build')
+    opt = opts.get()
+    if opt[0] == '--auto-build'
+        $bool = true
     end
     
     puts "StaticMatic Preview Server Starting..."
