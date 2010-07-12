@@ -9,7 +9,6 @@ module StaticMatic
       if $bool
         staticmatic = StaticMatic::Base.new($dir_name)
         staticmatic.run('build')
-        $bool += 1
       end 
       @staticmatic.load_helpers
       path_info = env["PATH_INFO"]
